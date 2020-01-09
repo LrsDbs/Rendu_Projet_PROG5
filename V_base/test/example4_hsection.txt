@@ -1,0 +1,22 @@
+No.	taille	type		permissions	decalage	nom
+[0]	0	SHT_NULL	 		0			
+[1]	24	SHT_PROGBITS	 XA		34		.text	
+[2]	10	SHT_REL		 I		254		.rel.text	
+[3]	8	SHT_PROGBITS	 AW		58		.data	
+[4]	0	SHT_NOBITS	 AW		60		.bss	
+[5]	40	SHT_PROGBITS	 		60		.debug_line	
+[6]	8	SHT_REL		 I		264		.rel.debug_line	
+[7]	72	SHT_PROGBITS	 		a0		.debug_info	
+[8]	20	SHT_REL		 I		26c		.rel.debug_info	
+[9]	14	SHT_PROGBITS	 		112		.debug_abbrev	
+[10]	20	SHT_PROGBITS	 		128		.debug_aranges	
+[11]	10	SHT_REL		 I		28c		.rel.debug_aranges	
+[12]	14	0x70000003	 		148		.ARM.attributes	
+[13]	81	SHT_STRTAB	 		29c		.shstrtab	
+[14]	e0	SHT_SYMTAB	 		15c		.symtab	
+[15]	17	SHT_STRTAB	 		23c		.strtab	
+DETAILS :
+T : SHF_TLS		G : SHF_GROUP		O : SHF_OS_NONCONFORMING
+L : SHF_LINK_ORDER	I : SHF_INFO_LINK	S : SHF_STRINGS
+M : SHF_MERGE		X : SHF_EXECINSTR	A : SHF_ALLOC
+W : SHF_WRITE

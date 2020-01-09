@@ -6,8 +6,11 @@
 #include <stdlib.h>
 #include <elf.h>
 #include "type_liste_symb.h"
-#include "elf32_reloc_table.h"
 #include "gestion_endian.h"
+#include "verification.h"
+#include "elf32_reloc_table.h"
+
+
 FILE* ouverture_fich_lecture(char* name);
 
 /*
@@ -24,7 +27,7 @@ Elf32_Ehdr load_header(char* name);
 Recupere une section du fichier elf
 Retour :        Elf32_Shdr : header d une section en big endian
 Arguments:      char* name : nom du fichier a ouvrir
-                int offset : le numero de bit a partir duquel charger le fichier
+                int offset : le numero de bit a partir duquel charger le fichier 
 */
 Elf32_Shdr load_section(char* filename, int offset);
 
@@ -50,17 +53,6 @@ char* load_stringtable(char* name_file,int offset);
 
 
 /*
-            Partie 1.3
-Recupere le header d'une section
-Retour :        int : -1 si erreur, 0 sinon
-Arguments:      FILE *f: fichier elf ouvert au prealable
-                Elf32_Shdr section: section dont on doit recuperer le header en little endian
-                char *sectionHeader: Variable dans laquelle le header de la section sera mis en big endian
-*/
-int load_section_header(FILE *f, Elf32_Shdr section, char *sectionHeader);
-
-
-/*
             Partie 1.4
 Recupere un symbole
 Retour :        Elf32_Sym : un Symbole en big endian
@@ -73,7 +65,7 @@ Elf32_Sym load_symb(char* filename, int offset);
 /*
             Partie 1.4
 Recupere la table de symbole
-Arguments:      char* file: nom du fichier elf
+Arguments:      char* file: nom du fichier elf 
                 Elf32_Ehdr header: header du fichier elf en little endian
                 Elf32_Shdr section[]: tableau avec toutes les sections avec les sections en little endians
                 liste_elf32_sym* list_symb: liste qui contiendra tous les symboles (qui seront en big endian): represente la table de symbole
@@ -93,11 +85,10 @@ int load_offset_symb(Elf32_Ehdr header, Elf32_Shdr section[], char* stringtable)
 
 /*
 Partie 1.5
-Récupère toutes les sections contenant des réimplémentations et leur réimplémentations
-retour:
-arguments:
-    char* filename le nom du fichier concerné
-    elf32_section_reloc* relocationtable la table qui contiendra toutes les sections
+Récupere toutes les sections contenant des reimplementations et leur reimplementations
+Arguments:      char* filename le nom du fichier concerne
+                elf32_section_reloc* relocationtable la table qui contiendra toutes les sections
 */
 void load_relocation_table(char *filename, elf32_section_reloc* relocationtable);
+
 #endif

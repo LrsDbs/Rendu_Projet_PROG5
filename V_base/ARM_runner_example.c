@@ -34,7 +34,7 @@ void usage(char *name) {
 	fprintf(stderr, "Usage:\n"
 		"%s [ --help ] [ --host hostname ] [ --service servicename ] [ --debug file ] file\n\n"
 		"Loads a sample ARM code to a remote simulator. The --debug flag enables the output produced by "
-		"calls to the debug function in the named source file.\n"
+		"calls to the debug function in the named source file.\n" 
 		, name);
 }
 
@@ -64,7 +64,7 @@ void sample_run(char *hostname, char *servicename) {
 
 int main(int argc, char *argv[]) {
 	int opt;
-	//char *hostname, *servicename;
+	char *hostname, *servicename;
 
 	struct option longopts[] = {
 		{ "debug", required_argument, NULL, 'd' },
@@ -75,7 +75,8 @@ int main(int argc, char *argv[]) {
 		{ "Affichage table de section", required_argument, NULL, 'B' },
 		{ "Affichage section", required_argument, NULL, 'C' },
 		{ "Affichage table de symboles", required_argument, NULL, 'D' },
-		{ "Affichade des tables de réimplémentations", required_argument, NULL, 'R' },
+		{ "Affichage table de reimplementation", required_argument, NULL, 'E' },
+		{ "Fusion 1", required_argument, NULL, 'F' },
 		{ NULL, 0, NULL, 0 }
 	};
 
@@ -87,13 +88,13 @@ int main(int argc, char *argv[]) {
                 exit(1);
             }
 	name_file = argv[2];
-	while ((opt = getopt_long(argc, argv, "S:H:d:h:A:B:C:D:R", longopts, NULL)) != -1) {
+	while ((opt = getopt_long(argc, argv, "S:H:d:h:A:B:C:D:E:F", longopts, NULL)) != -1) {
 		switch(opt) {
 		case 'H':
-	//		hostname = optarg;
+			hostname = optarg;
 			break;
 		case 'S':
-		//	servicename = optarg;
+			servicename = optarg;
 			break;
 		case 'h':
 			usage(argv[0]);
@@ -118,8 +119,11 @@ int main(int argc, char *argv[]) {
 		case 'D':
             main_table_symbole(name_file);
             break;
-		case 'R':
-		//	main_relocation_table(name_file);
+		case 'E':
+            main_relocation_table(name_file);
+            break;
+		case 'F':
+			main_fus(argc, argv);
 			break;
 		default:
 			fprintf(stderr, "Unrecognized option %c\n", opt);

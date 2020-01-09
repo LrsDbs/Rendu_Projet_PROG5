@@ -1,0 +1,17 @@
+ident:	ELF
+ident class:	1 - 32 bits obj
+ident data:	2 - Big endian (ex:CA FE)
+ident version:	1
+type:	1 - Relocated file
+machine:	40
+version:	1 - current version
+entry:	0
+phoff:	0
+shoff:	1260
+flags:	0x5000000
+ehsize:	52
+phentsize:	0
+phnum:	0
+shentsize:	40
+shnum:	19
+shstrndx:	16

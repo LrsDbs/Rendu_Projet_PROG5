@@ -28,6 +28,7 @@ table_string creat_table_string_symb(Elf32_Word size1, Elf32_Word size2) {
     init_table(&table, size1 + size2);
     return table;
 }
+
 /* initialisation de la table
 Arguments:      table_string *table: table de string
                 int size: taille de la table
@@ -41,7 +42,7 @@ void init_table(table_string *table, int size){
 /* ecriture dans la table
 Arguments:      table_string *table: table de string
                 Elf32_Shdr section: entete de la section en modification
-                Elf32_Ehdr header: header du fichier source
+                Elf32_Ehdr header: header du fichier source 
                 char* source: fichier source
 */
 void write_table(table_string* table, Elf32_Shdr section, Elf32_Ehdr header, char* source){
@@ -50,7 +51,7 @@ void write_table(table_string* table, Elf32_Shdr section, Elf32_Ehdr header, cha
 	char * stringtable = load_stringtable(source,offset);
     //Recupere le nom de l entete de la section
     stringtable = stringtable + section.sh_name;
-
+    
     //On copie dans le nom de l entete de section dans la nouvelle table de string
     int i = 0;
     while(stringtable[i] != '\0'){

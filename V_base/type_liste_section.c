@@ -18,7 +18,7 @@ int est_vide_S(liste_elf32_Shdr p){
 		return 1;
 	}
 	return 0;
-}
+}	
 
 /* Renvoie le nombre d'éléments dans la liste */
 int taille_S(liste_elf32_Shdr p){
@@ -78,3 +78,11 @@ void free_liste_S(liste_elf32_Shdr * p){
 	free(p->tab);
 	p->n=0;
 }
+
+
+
+
+
+
+
+

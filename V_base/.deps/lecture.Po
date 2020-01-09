@@ -58,8 +58,8 @@ lecture.o: lecture.c /usr/include/stdc-predef.h lecture.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
- /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- elf32_reloc_table.h gestion_endian.h
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h gestion_endian.h \
+ verification.h elf32_reloc_table.h
 
 /usr/include/stdc-predef.h:
 
@@ -197,6 +197,8 @@ type_liste_symb.h:
 
 /usr/include/x86_64-linux-gnu/bits/string_fortified.h:
 
-elf32_reloc_table.h:
-
 gestion_endian.h:
+
+verification.h:
+
+elf32_reloc_table.h:

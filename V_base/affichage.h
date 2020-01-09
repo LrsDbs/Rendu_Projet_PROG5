@@ -7,6 +7,7 @@
 #include <elf.h>
 #include "type_liste_symb.h"
 #include "lecture.h"
+#include "elf32_reloc_table.h"
 
 
 /*
@@ -44,24 +45,21 @@ Arguments:      liste_elf32_sym listesymb: la table de symbole a afficher
 */
 void print_tablesymbol(liste_elf32_sym listesymb,char* stringtable);
 
+
 /*
 Partie 1.5
-Association du type de la réimplémentation en chaine de caractére.
-retour: la chaine de caractere correspondante au type passé en entrée
-arguments: 
-    Elf32_Word type, le type de la réimplémentation
-    Elf32_Half le type machine utilisé
+Association du type de la reimplementation en chaine de caracteres.
+Retour: la chaine de caractere correspondante au type passe en entree
+Arguments:      Elf32_Word type, le type de la reimplementation
+                Elf32_Half le type machine utilise
 */
 char * get_reloc_type(Elf32_Word type, Elf32_Half machine);
 
 /*
-Partie 1.5
-affiche les tables de réimplémentation du fichier concerné
-retour:
-arguments: 
-    char* name_file le nom du fichier concerné
-    elf32_section_reloc la table des sections contenant des réimplémentations
+            Partie 1.5
+Affiche les tables de reimplémentation du fichier concerne
+Arguments:      char* name_file le nom du fichier concerne
+                elf32_section_reloc la table des sections contenant des reimplementations
 */
 void print_relocation_table(char * name_file, elf32_section_reloc relocationtable);
-
 #endif

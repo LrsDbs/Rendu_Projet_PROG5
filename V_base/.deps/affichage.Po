@@ -59,7 +59,7 @@ affichage.o: affichage.c /usr/include/stdc-predef.h affichage.h \
  /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h lecture.h \
- elf32_reloc_table.h gestion_endian.h
+ gestion_endian.h verification.h elf32_reloc_table.h
 
 /usr/include/stdc-predef.h:
 
@@ -199,6 +199,8 @@ type_liste_symb.h:
 
 lecture.h:
 
-elf32_reloc_table.h:
-
 gestion_endian.h:
+
+verification.h:
+
+elf32_reloc_table.h:

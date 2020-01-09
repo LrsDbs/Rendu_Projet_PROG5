@@ -1,4 +1,5 @@
-fusion.o: fusion.c /usr/include/stdc-predef.h /usr/include/stdio.h \
+fusion.o: fusion.c /usr/include/stdc-predef.h fusion.h \
+ /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -57,11 +58,13 @@ fusion.o: fusion.c /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
- /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- elf32_reloc_table.h gestion_endian.h ecriture.h type_liste_section.h \
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h gestion_endian.h \
+ verification.h elf32_reloc_table.h ecriture.h type_liste_section.h \
  table_string.h
 
 /usr/include/stdc-predef.h:
+
+fusion.h:
 
 /usr/include/stdio.h:
 
@@ -197,9 +200,11 @@ type_liste_symb.h:
 
 /usr/include/x86_64-linux-gnu/bits/string_fortified.h:
 
-elf32_reloc_table.h:
-
 gestion_endian.h:
+
+verification.h:
+
+elf32_reloc_table.h:
 
 ecriture.h:
 

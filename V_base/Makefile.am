@@ -17,13 +17,12 @@ SUBDIRS+=. Examples_loader
 
 bin_PROGRAMS=
 bin_PROGRAMS+=ARM_runner_example
-bin_PROGRAMS+=fusion_symbol_tab
+COMMON= elf32_reloc_table.h elf32_reloc_table.c ecriture.c ecriture.h type_liste_section.c type_liste_section.h table_string.c table_string.h verification.c verification.h debug.h debug.c util.h util.c type_liste_symb.c type_liste_symb.h lecture.c lecture.h affichage.c affichage.h mains.c mains.h gestion_endian.c gestion_endian.h fusion.c fusion.h
 
-COMMON= ecriture.c ecriture.h type_liste_section.c type_liste_section.h table_string.c table_string.h verification.c verification.h debug.h debug.c util.h util.c type_liste_symb.c type_liste_symb.h lecture.c lecture.h affichage.c affichage.h mains.c mains.h gestion_endian.c gestion_endian.h fusion.c fusion.h
 EXTRA_DIST=filtre.pl
 SIMULATOR_INTERFACE=csapp.h csapp.c scanner.h scanner.l gdb_protocol.h gdb_protocol.c arm_simulator_interface.h arm_simulator_interface.c
 
 ARM_runner_example_SOURCES=$(COMMON) $(SIMULATOR_INTERFACE) ARM_runner_example.c
-fusion_symbol_tab_SOURCES=$(COMMON) fusion_table_symboles.h fusion_table_symboles.c
 
 EXTRA_DIST+=sample_run.sh
+

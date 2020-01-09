@@ -86,7 +86,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = ARM_runner_example$(EXEEXT) fusion_symbol_tab$(EXEEXT)
+bin_PROGRAMS = ARM_runner_example$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/hostsubdir.m4 \
@@ -102,9 +102,10 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__objects_1 = ecriture.$(OBJEXT) type_liste_section.$(OBJEXT) \
-	table_string.$(OBJEXT) verification.$(OBJEXT) debug.$(OBJEXT) \
-	util.$(OBJEXT) type_liste_symb.$(OBJEXT) lecture.$(OBJEXT) \
+am__objects_1 = elf32_reloc_table.$(OBJEXT) ecriture.$(OBJEXT) \
+	type_liste_section.$(OBJEXT) table_string.$(OBJEXT) \
+	verification.$(OBJEXT) debug.$(OBJEXT) util.$(OBJEXT) \
+	type_liste_symb.$(OBJEXT) lecture.$(OBJEXT) \
 	affichage.$(OBJEXT) mains.$(OBJEXT) gestion_endian.$(OBJEXT) \
 	fusion.$(OBJEXT)
 am__objects_2 = csapp.$(OBJEXT) scanner.$(OBJEXT) \
@@ -114,11 +115,6 @@ am_ARM_runner_example_OBJECTS = $(am__objects_1) $(am__objects_2) \
 ARM_runner_example_OBJECTS = $(am_ARM_runner_example_OBJECTS)
 ARM_runner_example_LDADD = $(LDADD)
 ARM_runner_example_DEPENDENCIES =
-am_fusion_symbol_tab_OBJECTS = $(am__objects_1) \
-	fusion_table_symboles.$(OBJEXT)
-fusion_symbol_tab_OBJECTS = $(am_fusion_symbol_tab_OBJECTS)
-fusion_symbol_tab_LDADD = $(LDADD)
-fusion_symbol_tab_DEPENDENCIES =
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -153,9 +149,8 @@ am__v_LEX_ = $(am__v_LEX_$(AM_DEFAULT_VERBOSITY))
 am__v_LEX_0 = @echo "  LEX     " $@;
 am__v_LEX_1 = 
 YLWRAP = $(top_srcdir)/build-aux/ylwrap
-SOURCES = $(ARM_runner_example_SOURCES) $(fusion_symbol_tab_SOURCES)
-DIST_SOURCES = $(ARM_runner_example_SOURCES) \
-	$(fusion_symbol_tab_SOURCES)
+SOURCES = $(ARM_runner_example_SOURCES)
+DIST_SOURCES = $(ARM_runner_example_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -205,7 +200,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(top_srcdir)/build-aux/missing $(top_srcdir)/build-aux/ylwrap \
 	AUTHORS COPYING INSTALL README build-aux/compile \
 	build-aux/depcomp build-aux/install-sh build-aux/missing \
-	build-aux/ylwrap install-sh scanner.c
+	build-aux/ylwrap scanner.c
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -248,12 +243,12 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /home/d/duboilor/Projet_PROG5_final/V_base/build-aux/missing aclocal-1.15
+ACLOCAL = ${SHELL} /home/d/debonome/L3/PROJET/Projet_PROG5/V_fin/build-aux/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
-AUTOCONF = ${SHELL} /home/d/duboilor/Projet_PROG5_final/V_base/build-aux/missing autoconf
-AUTOHEADER = ${SHELL} /home/d/duboilor/Projet_PROG5_final/V_base/build-aux/missing autoheader
-AUTOMAKE = ${SHELL} /home/d/duboilor/Projet_PROG5_final/V_base/build-aux/missing automake-1.15
+AUTOCONF = ${SHELL} /home/d/debonome/L3/PROJET/Projet_PROG5/V_fin/build-aux/missing autoconf
+AUTOHEADER = ${SHELL} /home/d/debonome/L3/PROJET/Projet_PROG5/V_fin/build-aux/missing autoheader
+AUTOMAKE = ${SHELL} /home/d/debonome/L3/PROJET/Projet_PROG5/V_fin/build-aux/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
@@ -282,7 +277,7 @@ LEX_OUTPUT_ROOT = lex.yy
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/d/duboilor/Projet_PROG5_final/V_base/build-aux/missing makeinfo
+MAKEINFO = ${SHELL} /home/d/debonome/L3/PROJET/Projet_PROG5/V_fin/build-aux/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = elf_linker
@@ -297,10 +292,10 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = 
 VERSION = 1.0
-abs_builddir = /home/d/duboilor/Projet_PROG5_final/V_base
-abs_srcdir = /home/d/duboilor/Projet_PROG5_final/V_base
-abs_top_builddir = /home/d/duboilor/Projet_PROG5_final/V_base
-abs_top_srcdir = /home/d/duboilor/Projet_PROG5_final/V_base
+abs_builddir = /home/d/debonome/L3/PROJET/Projet_PROG5/V_fin
+abs_srcdir = /home/d/debonome/L3/PROJET/Projet_PROG5/V_fin
+abs_top_builddir = /home/d/debonome/L3/PROJET/Projet_PROG5/V_fin
+abs_top_srcdir = /home/d/debonome/L3/PROJET/Projet_PROG5/V_fin
 ac_ct_CC = gcc
 am__include = include
 am__leading_dot = .
@@ -319,7 +314,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/d/duboilor/Projet_PROG5_final/V_base/build-aux/install-sh
+install_sh = ${SHELL} /home/d/debonome/L3/PROJET/Projet_PROG5/V_fin/build-aux/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -349,11 +344,10 @@ AM_CFLAGS = -Wall -g -D DEBUG -D WARNING -D BIG_ENDIAN_SIMULATOR
 #AM_CFLAGS+=-D CACHE_DEBUG_FLAG
 LDADD = -lpthread
 SUBDIRS = . Examples_loader
-COMMON = ecriture.c ecriture.h type_liste_section.c type_liste_section.h table_string.c table_string.h verification.c verification.h debug.h debug.c util.h util.c type_liste_symb.c type_liste_symb.h lecture.c lecture.h affichage.c affichage.h mains.c mains.h gestion_endian.c gestion_endian.h fusion.c fusion.h
+COMMON = elf32_reloc_table.h elf32_reloc_table.c ecriture.c ecriture.h type_liste_section.c type_liste_section.h table_string.c table_string.h verification.c verification.h debug.h debug.c util.h util.c type_liste_symb.c type_liste_symb.h lecture.c lecture.h affichage.c affichage.h mains.c mains.h gestion_endian.c gestion_endian.h fusion.c fusion.h
 EXTRA_DIST = filtre.pl sample_run.sh
 SIMULATOR_INTERFACE = csapp.h csapp.c scanner.h scanner.l gdb_protocol.h gdb_protocol.c arm_simulator_interface.h arm_simulator_interface.c
 ARM_runner_example_SOURCES = $(COMMON) $(SIMULATOR_INTERFACE) ARM_runner_example.c
-fusion_symbol_tab_SOURCES = $(COMMON) fusion_table_symboles.h fusion_table_symboles.c
 all: all-recursive
 
 .SUFFIXES:
@@ -438,10 +432,6 @@ ARM_runner_example$(EXEEXT): $(ARM_runner_example_OBJECTS) $(ARM_runner_example_
 	@rm -f ARM_runner_example$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(ARM_runner_example_OBJECTS) $(ARM_runner_example_LDADD) $(LIBS)
 
-fusion_symbol_tab$(EXEEXT): $(fusion_symbol_tab_OBJECTS) $(fusion_symbol_tab_DEPENDENCIES) $(EXTRA_fusion_symbol_tab_DEPENDENCIES) 
-	@rm -f fusion_symbol_tab$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(fusion_symbol_tab_OBJECTS) $(fusion_symbol_tab_LDADD) $(LIBS)
-
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -454,8 +444,8 @@ include ./$(DEPDIR)/arm_simulator_interface.Po
 include ./$(DEPDIR)/csapp.Po
 include ./$(DEPDIR)/debug.Po
 include ./$(DEPDIR)/ecriture.Po
+include ./$(DEPDIR)/elf32_reloc_table.Po
 include ./$(DEPDIR)/fusion.Po
-include ./$(DEPDIR)/fusion_table_symboles.Po
 include ./$(DEPDIR)/gdb_protocol.Po
 include ./$(DEPDIR)/gestion_endian.Po
 include ./$(DEPDIR)/lecture.Po

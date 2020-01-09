@@ -1,0 +1,12 @@
+number	value	size	lien	shndx	type	name		
+0	0x0	0	local	undef	notype	
+1	0x0	0	local	1	section	
+2	0x0	0	local	2	section	
+3	0x0	0	local	3	section	
+4	0x0	0	local	1	notype	$a
+5	0x0	0	local	6	section	
+6	0x0	0	local	8	section	
+7	0x0	0	local	4	section	
+8	0x0	0	local	9	section	
+9	0x0	0	local	11	section	
+10	0x0	0	global	1	notype	main

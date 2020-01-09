@@ -58,7 +58,8 @@ ecriture.o: ecriture.c /usr/include/stdc-predef.h ecriture.h \
  /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h table_string.h \
- lecture.h type_liste_symb.h elf32_reloc_table.h gestion_endian.h
+ lecture.h type_liste_symb.h gestion_endian.h verification.h \
+ elf32_reloc_table.h
 
 /usr/include/stdc-predef.h:
 
@@ -202,6 +203,8 @@ lecture.h:
 
 type_liste_symb.h:
 
-elf32_reloc_table.h:
-
 gestion_endian.h:
+
+verification.h:
+
+elf32_reloc_table.h:

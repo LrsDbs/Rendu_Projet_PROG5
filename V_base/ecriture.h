@@ -22,7 +22,7 @@ Retour:         Retourne l'offset courant
 Arguments:      FILE* res: Fichier ouvert resultat (en ecriture)
                 char* source: nom du fichier source
                 int offset: indice courant
-                Elf32_Shdr sectheader[]: table des sections de source
+                Elf32_Shdr sectheader[]: table des sections de source 
                 Elf32_Ehdr* header: header du nouveau fichier
                 int v: L'indice de la section source a ajouter au fichier
                 table_string* table: table de string

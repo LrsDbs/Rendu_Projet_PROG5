@@ -61,3 +61,14 @@ void swap_header_symb(Elf32_Sym* header_sym) {
     header_sym->st_size= invert_endian_32(header_sym->st_size);
     header_sym->st_shndx= invert_endian_16(header_sym->st_shndx);
 }
+
+void swap_rel(Elf32_Rel * relation){
+    relation->r_offset = invert_endian_32(relation->r_offset);
+    relation->r_info = invert_endian_32(relation->r_info);
+}
+
+void swap_rela(Elf32_Rela * relation){
+    relation->r_offset = invert_endian_32(relation->r_offset);
+    relation->r_info = invert_endian_32(relation->r_info);
+    relation->r_addend = invert_endian_32(relation->r_addend);
+}

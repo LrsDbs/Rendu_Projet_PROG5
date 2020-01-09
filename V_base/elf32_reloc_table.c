@@ -1,36 +1,43 @@
 #include "elf32_reloc_table.h"
 
-void creer_table(elf32_reloc_table * s,int taille){
+//elf32_rela_table
+void creer_table(elf32_rela_table * s,int taille, int type){
 	s->size=0;
-    s->tabrela = malloc(sizeof(Elf32_Rela) * taille);
+	if(type == SHT_RELA)
+    	s->tabrela = malloc(sizeof(Elf32_Rela) * taille);
+	else
+		s->tabrel = malloc(sizeof(Elf32_Rel) * taille);
 }
 
-int est_vide_table(elf32_reloc_table s){
+int est_vide_table(elf32_rela_table s){
 	if (s.size==0){
 		return 1;
 	}
 	return 0;
 }	
 
-int taille_table(elf32_reloc_table s){
+int taille_table(elf32_rela_table s){
 	return s.size;
 }
 
-void vider_table(elf32_reloc_table * t){
+void vider_table(elf32_rela_table * t){
 	t->size=0;
 }
 
-void free_table(elf32_reloc_table * t){
+void free_table(elf32_rela_table * t){
+	if(t->header.sh_type == SHT_RELA)
+		free(t->tabrela);
+	else
+		free(t->tabrel);
 	free(&t->header);
-	free(t->tabrela);
 	t->size=0;
 }
 
-
+//elf32_section_reloc
 void creer_section(elf32_section_reloc * s, int taille){
 	s->size = 0;
 	s->size_max = taille;
-	s->table = malloc(sizeof(elf32_reloc_table) * taille);
+	s->table = malloc(sizeof(elf32_rela_table) * taille);
 }
 
 int est_vide_section(elf32_section_reloc s){
@@ -49,11 +56,11 @@ void vider_section(elf32_section_reloc * s){
 }
 
 void re_alloc_section(elf32_section_reloc * s){
-	s->size_max = s->size_max + 2;
-	s->table = realloc(s->table, sizeof(elf32_reloc_table) * s->size_max);
+	s->size_max = s->size_max * 2;
+	s->table = realloc(s->table, sizeof(elf32_rela_table) * s->size_max);
 }
 
-int ajouter_section(elf32_section_reloc * s, elf32_reloc_table t){
+int ajouter_section(elf32_section_reloc * s, elf32_rela_table t){
 	if (s->size == s->size_max)
 		re_alloc_section(s);
 	s->table[s->size]=t;

@@ -58,7 +58,7 @@ int ajouter(liste_elf32_sym * p,Elf32_Sym x){
 }
 
 void re_alloc(liste_elf32_sym * p){
-	p->taille_max = p->taille_max + 5;
+	p->taille_max = p->taille_max * 2;
 	p->tab = realloc(p->tab, sizeof(Elf32_Sym) * p->taille_max);
 }
 

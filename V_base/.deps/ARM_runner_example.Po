@@ -62,7 +62,8 @@ ARM_runner_example.o: ARM_runner_example.c /usr/include/stdc-predef.h \
  /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h lecture.h \
- elf32_reloc_table.h gestion_endian.h affichage.h
+ gestion_endian.h verification.h elf32_reloc_table.h affichage.h fusion.h \
+ ecriture.h type_liste_section.h table_string.h
 
 /usr/include/stdc-predef.h:
 
@@ -212,8 +213,18 @@ type_liste_symb.h:
 
 lecture.h:
 
-elf32_reloc_table.h:
-
 gestion_endian.h:
 
+verification.h:
+
+elf32_reloc_table.h:
+
 affichage.h:
+
+fusion.h:
+
+ecriture.h:
+
+type_liste_section.h:
+
+table_string.h:

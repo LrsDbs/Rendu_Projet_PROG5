@@ -92,6 +92,7 @@ Arguments:      Elf32_Shdr sectionheaders[]: table de sections
                 char* stringtable: table de string
 */
 void print_section_table(Elf32_Shdr sectionheaders[], int size, char* stringtable){
+
     Elf32_Shdr header;
     char* name;
     printf("No.\ttaille\ttype\t\tpermissions\tdecalage\tnom\n");
@@ -392,13 +393,15 @@ void print_tablesymbol(liste_elf32_sym listesymb,char* stringtable){
     }
 
 }
+
+
+
 /*
 Partie 1.5
-Association du type de la réimplémentation en chaine de caractére.
-retour: la chaine de caractere correspondante au type passé en entrée
-arguments: 
-    Elf32_Word type, le type de la réimplémentation
-    Elf32_Half le type machine utilisé
+Association du type de la reimplementation en chaine de caracteres.
+Retour: la chaine de caractere correspondante au type passe en entree
+Arguments:      Elf32_Word type, le type de la reimplementation
+                Elf32_Half le type machine utilise
 */
 char * get_reloc_type(Elf32_Word type, Elf32_Half machine){
 
@@ -436,37 +439,72 @@ char * get_reloc_type(Elf32_Word type, Elf32_Half machine){
 }
 /*
 Partie 1.5
-affiche les tables de réimplémentation du fichier concerné
-retour:
-arguments: 
-    char* name_file le nom du fichier concerné
-    elf32_section_reloc la table des sections contenant des réimplémentations
+Affiche les tables de reimplémentation du fichier concerne
+Arguments:      char* name_file le nom du fichier concerne
+                elf32_section_reloc la table des sections contenant des reimplementations
 */
 void print_relocation_table(char * name_file, elf32_section_reloc relocationtable){
-    Elf32_Ehdr header = load_header(name_file);
-    int offset = ((header.e_shstrndx*header.e_shentsize)+header.e_shoff);
-    char * stringtable = load_stringtable(name_file, offset);
+	Elf32_Ehdr header = load_header(name_file);
+    swap_header(&header);
+	int offset = ((header.e_shstrndx*header.e_shentsize)+header.e_shoff);
+	char * stringtable = load_stringtable(name_file, offset);
+    offset = ((header.e_shnum*header.e_shentsize)+header.e_shoff);
+    //char* symbtable = load_stringtable(name_file,offset);
 
-    
-    elf32_reloc_table currenttable;
-    for(int i=0;i<relocationtable.size;i++){
+    //creation liste symb
+	liste_elf32_sym liste_symb;
+	creer_liste(&(liste_symb), 5);
+    //Recuperation de la table de section
+	Elf32_Shdr sectionheaders[header.e_shnum]; 
+	load_tablesection(name_file, header, sectionheaders);
 
-        currenttable = relocationtable.table[i];
-        Elf32_Rela currentrela;
-        Elf32_Shdr currentheader = currenttable.header;
+	//Passage de chaque section en little endian pour avoir acces au donnees
+	for (int k = 0; k<header.e_shnum;k++){
+		swap_header_section(&(sectionheaders[k]));
+	}
+	//Recuperation table de symbole
+	load_tablesymbole(name_file,header, sectionheaders, &liste_symb);
+	//Passage de chaque symbole en little endian pour avoir acces au donnees
+	for (int k = 0; k<liste_symb.n;k++){
+		swap_header_symb(&(liste_symb.tab[k]));
+	}
 
-        printf("\nSection de réadressage '%s' contenant %d entrées:\n", stringtable + currentheader.sh_name, currenttable.size);
-        printf("Offset\t\tInfo\t\ttype\t\tval.-symboles\tnom + Addend\n");
+    Elf32_Sym currentsymbol;
+	elf32_rela_table currenttable;
+	//printf("lancement impression, taille de la table : %d\n", relocationtable.size);
+	for(int i=0;i<relocationtable.size;i++){
 
-        for(int j=0;j<currenttable.size;j++){
-            currentrela = currenttable.tabrela[j];
-            printf("%012x\t", currentrela.r_offset);
-            printf("%012x\t", currentrela.r_info);
-            printf("%s\t", get_reloc_type(ELF64_R_TYPE(currentrela.r_info), header.e_machine));
-            int sym = ELF64_R_SYM(currentrela.r_info);
-            printf("%012x\t", sym);
-            printf("%s + ", stringtable + currentrela.r_info);
-            printf("%d\n", currentrela.r_addend);
+		currenttable = relocationtable.table[i];
+		Elf32_Shdr currentheader = currenttable.header;
+		Elf32_Rel currentrel;
+		Elf32_Rela currentrela;
+
+		if (currentheader.sh_type == SHT_RELA){
+			printf("Section de réadressage '%s' contenant %d entrées:\n", stringtable + currentheader.sh_name, currenttable.size);
+			printf("Offset\t\tInfo\t\ttype\t\tval.-symboles\tnom + Addend\n");
+			for(int j=0;j<currenttable.size;j++){
+				currentrela = currenttable.tabrela[j];
+				printf("%012x\t", currentrela.r_offset);
+				printf("%012x\t", currentrela.r_info);
+				printf("%s\t", get_reloc_type(ELF32_R_TYPE(currentrela.r_info), header.e_machine));
+				int sym = ELF32_R_SYM(currentrela.r_info);
+				printf("%08x\t", sym);
+				printf("%s + ", stringtable + sym);
+				printf("%d\n", currentrela.r_addend);
+            }
+        } else {
+			printf("Section de réadressage '%s' contenant %d entrées:\n", stringtable + currentheader.sh_name, currenttable.size);
+			printf("Offset\t\tInfo\t\ttype\t\tval.-symboles\tnom\n");
+			for(int j=0;j<currenttable.size;j++){
+				currentrel = currenttable.tabrel[j];
+				printf("%012x\t", currentrel.r_offset);
+				printf("%012x\t", currentrel.r_info);
+				printf("%s\t\t", get_reloc_type(ELF32_R_TYPE(currentrel.r_info), header.e_machine));
+                int temp = get_symbol(liste_symb, ELF32_R_SYM(currentrel.r_info), &currentsymbol);
+				printf("%012x\t", currentsymbol.st_value);
+				printf("%s\n", stringtable + sectionheaders[ELF32_R_SYM(currentrel.r_info)].sh_name);
+                if(temp){}
+            }
         }
     }
 }

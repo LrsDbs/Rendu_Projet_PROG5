@@ -1,8 +1,5 @@
-
-
 #include "lecture.h"
-//On suppose que chaque fichier lu est en big endian
-
+#include "verification.h"
 
 FILE* ouverture_fich_lecture(char* name){
     FILE* f = fopen(name, "rb");
@@ -12,6 +9,10 @@ FILE* ouverture_fich_lecture(char* name){
     }
     return f;
 }
+
+
+//On suppose que chaque fichier lu est en big endian
+
 /*
                 Partie 1.1
 Recupere le header du fichier elf
@@ -19,16 +20,16 @@ Retour :      Elf32_Ehdr : header fichier elf en big endian
 Arguments:    char* name : nom du fichier a ouvrir
 */
 Elf32_Ehdr load_header(char* name){
-    FILE* f;
+    FILE* f = ouverture_fich_lecture(name);    
     Elf32_Ehdr header;
-    f=fopen(name, "rb");
-    if (f== NULL){
-        printf("Erreur ouverture fichier\n");
-        exit(0);
-    }
     size_t res;
     res=fread(&header, 1, sizeof(header), f);
+    res=verif_fread_header(header);
     fclose(f);
+    if(res==1){
+        printf("Erreur recuperation header\n");
+        exit(0);
+    }
     if (res==0){}
     return header;
 }
@@ -38,20 +39,21 @@ Elf32_Ehdr load_header(char* name){
 Recupere une section du fichier elf
 Retour :        Elf32_Shdr : header d une section en big endian
 Arguments:      char* name : nom du fichier a ouvrir
-                int offset : le numero de bit a partir duquel charger le fichier
+                int offset : le numero de bit a partir duquel charger le fichier 
 */
 Elf32_Shdr load_section(char* filename, int offset){
-    FILE* file;
-    file=fopen(filename, "rb");
+    FILE* file = ouverture_fich_lecture(filename);    
     Elf32_Shdr sectionheader;
-    if (file){
-        int res;
-        res=fseek(file, offset, SEEK_SET);
-        res=fread(&sectionheader, 1, sizeof(sectionheader), file);
-        res++;
-    }
+    int res;
+    res=fseek(file, offset, SEEK_SET);
+    res=fread(&sectionheader, 1, sizeof(sectionheader), file);
     fclose(file);
-    return sectionheader;
+    res=verif_fread_sectionheader(sectionheader);
+    if(res==1){
+        printf("Erreur recuperation section header\n");
+        exit(0);
+    }
+    return sectionheader; 
 }
 /*
             Partie 1.2
@@ -81,7 +83,7 @@ Arguments:      char* filename: nom du fichier
 */
 char * load_stringtable(char *name_file, int offset){
 
-    FILE* file = fopen(name_file,"rb");
+    FILE* file = ouverture_fich_lecture(name_file);    
     int res;
     Elf32_Shdr header;
     header  = load_section(name_file,offset);
@@ -95,6 +97,7 @@ char * load_stringtable(char *name_file, int offset){
     return stringtable;
 }
 
+
 /*
             Partie 1.4
 Recupere un symbole
@@ -103,23 +106,25 @@ Arguments:      char* filename: nom du fichier elf
                 int offset: le numero de bit a partir duquel se trouve le symbole
 */
 Elf32_Sym load_symb(char* filename, int offset){
-    Elf32_Sym symb;
-    FILE* file;
-    file=fopen(filename, "rb");
-    if (file){
-        int res;
-        res=fseek(file, offset, SEEK_SET);
-        res=fread(&symb, 1, sizeof(symb), file);
-        res++;
-    }
+    Elf32_Sym symb; 
+    FILE* file = ouverture_fich_lecture(filename);    
+    int res; 
+    res=fseek(file, offset, SEEK_SET);
+    res=fread(&symb, 1, sizeof(symb), file);
+    res++;
     fclose(file);
+    res=verif_fread_symbole(symb);
+    if( res == 1){
+        printf("Erreur recuperation symbole");
+        exit(0);
+    }
     return symb;
 }
 
 /*
             Partie 1.4
 Recupere la table de symbole
-Arguments:      char* file: nom du fichier elf
+Arguments:      char* file: nom du fichier elf 
                 Elf32_Ehdr header: header du fichier elf en little endian
                 Elf32_Shdr section[]: tableau avec toutes les sections avec les sections en little endians
                 liste_elf32_sym* list_symb: liste qui contiendra tous les symboles (qui seront en big endian): represente la table de symbole
@@ -131,12 +136,12 @@ void load_tablesymbole(char* file,Elf32_Ehdr header, Elf32_Shdr section[], liste
     for (int i=0; i<header.e_shnum; i++){
         // SHT_SYMTAB ==2
         //On cherche la section qui contient les symboles
-        if (section[i].sh_type==SHT_SYMTAB){
+        if (section[i].sh_type==SHT_SYMTAB){ 
             offs = section[i].sh_offset;
             //Quand on l a trouve on charge chaque symbole, on l ajoute a la table de symbole et on prepare la lecture du prochain symbole
             while (offs <section[i].sh_offset+ section[i].sh_size){
-                symbole=load_symb(file, offs);
-                errore=ajouter(list_symb, symbole);
+                symbole=load_symb(file, offs); 
+                errore=ajouter(list_symb, symbole);  
                 offs = sizeof(symbole) + offs;
                 if(errore){}
             }
@@ -166,46 +171,65 @@ int load_offset_symb(Elf32_Ehdr header, Elf32_Shdr section[], char* stringtable)
     return 0;
 }
 
+
 /*
 Partie 1.5
-Récupère toutes les sections contenant des réimplémentations et leur réimplémentations
-retour:
-arguments:
-    char* filename le nom du fichier concerné
-    elf32_section_reloc* relocationtable la table qui contiendra toutes les sections
+Récupere toutes les sections contenant des reimplementations et leur reimplementations
+Arguments:      char* filename le nom du fichier concerne
+                elf32_section_reloc* relocationtable la table qui contiendra toutes les sections
 */
-/*void load_relocation_table(char *filename, elf32_section_reloc* relocationtable){
+void load_relocation_table(char *filename, elf32_section_reloc* relocationtable){
 
     FILE* file = fopen(filename, "rb");
     Elf32_Rela currentrela;
+    Elf32_Rel currentrel;
     Elf32_Shdr currentheader;
     Elf32_Ehdr header = load_header(filename);
+    swap_header(&header);
     Elf32_Shdr sectionheaders[header.e_shnum];
-
-    creer_section(relocationtable, 5);
+    creer_section(relocationtable, 10);
     load_tablesection(filename, header, sectionheaders);
-
-
-
+    //printf("taille max : %d\n",relocationtable->size_max);
+    int placeholder = 0;
+    //printf("shnum : %d\t",(int) header.e_shnum);
+    //printf("SHT_REL : %d\n", SHT_REL);
     for(int i=0;i<header.e_shnum;i++){
         currentheader = sectionheaders[i];
+        swap_header_section(&currentheader);
         fseek(file, currentheader.sh_offset, SEEK_SET);
+        //printf("sh_type : %d\t", currentheader.sh_type);
+        //printf("current_type : %d\n", currentheader.sh_type);
+		//int offset = ((header.e_shstrndx*header.e_shentsize)+header.e_shoff);
+		//char * stringtable = load_stringtable(filename, offset);
 
-        if(currentheader.sh_type == SHT_RELA){
+		if(currentheader.sh_type == SHT_RELA){
 
-            int size = currentheader.sh_size / sizeof(Elf64_Rel);
-
-            elf32_reloc_table table;
-            creer_table(&table, size);
-            table.header=currentheader;
+			int size = currentheader.sh_size / sizeof(Elf32_Rela);
+			elf32_rela_table table;
+			creer_table(&table, size, currentheader.sh_type);
+			table.header=currentheader;
 
             for(int j=0;j<size;j++){
-                int placeholder = fread(&currentrela, 1, sizeof(Elf32_Rela), file);
-                if(placeholder){}
+                placeholder = fread(&currentrela, 1, sizeof(Elf32_Rela), file);
+                swap_rela(&currentrela);
                 table.tabrela[j]=currentrela;
             }
-
             ajouter_section(relocationtable, table);
+        } else if (currentheader.sh_type == SHT_REL) {
+
+            int size = currentheader.sh_size / sizeof(Elf32_Rel);
+            elf32_rela_table table;
+            creer_table(&table, size, currentheader.sh_type);
+            table.header=currentheader; 
+
+            for(int j=0;j<size;j++){
+                placeholder = fread(&currentrel, 1, sizeof(Elf32_Rel), file);
+                swap_rel(&currentrel);
+                table.tabrel[j]=currentrel;
+                table.size++;
+            }
+            ajouter_section(relocationtable, table);
+            if (placeholder){}
         }
     }
-}*/
+}

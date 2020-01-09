@@ -1,0 +1,13 @@
+Section de réadressage '.rel.debug_line' contenant 1 entrées:
+Offset		Info		type		val.-symboles	nom
+00000000002e	000000000102	R_ARM		000000000000	.text
+Section de réadressage '.rel.debug_info' contenant 4 entrées:
+Offset		Info		type		val.-symboles	nom
+000000000006	000000000802	R_ARM		000000000000	.debug_abbrev
+00000000000c	000000000902	R_ARM		000000000000	.debug_aranges
+000000000010	000000000102	R_ARM		000000000000	.text
+000000000014	000000000102	R_ARM		000000000000	.text
+Section de réadressage '.rel.debug_aranges' contenant 2 entrées:
+Offset		Info		type		val.-symboles	nom
+000000000006	000000000702	R_ARM		000000000000	.rel.debug_info
+000000000010	000000000102	R_ARM		000000000000	.text

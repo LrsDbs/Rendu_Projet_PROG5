@@ -26,17 +26,19 @@ table_string creat_table_string(Elf32_Ehdr header1, Elf32_Ehdr header2, char* so
 Arguments:      table_string *table: table de string
                 int size: taille de la table
 */
+
 table_string creat_table_string_symb(Elf32_Word size1, Elf32_Word size2);
+
 void init_table(table_string *table, int size);
 
 /* ecriture dans la table
 Arguments:      table_string *table: table de string
                 Elf32_Shdr section: entete de la section en modification
-                Elf32_Ehdr header: header du fichier source
+                Elf32_Ehdr header: header du fichier source 
                 char* source: fichier source
 */
 void write_table(table_string* table, Elf32_Shdr section, Elf32_Ehdr header, char* source);
 
-
 void write_table_Symb(table_string* table, char* stringtable);
+
 #endif

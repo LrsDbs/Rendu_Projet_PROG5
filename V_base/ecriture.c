@@ -23,7 +23,7 @@ Retour:         Retourne l'offset courant
 Arguments:      FILE* res: Fichier ouvert resultat (en ecriture)
                 char* source: nom du fichier source
                 int offset: indice courant
-                Elf32_Shdr sectheader[]: table des sections de source
+                Elf32_Shdr sectheader[]: table des sections de source 
                 Elf32_Ehdr* header: header du nouveau fichier
                 int v: L'indice de la section source a ajouter au fichier
                 table_string* table: table de string
@@ -46,7 +46,7 @@ int put_sect(FILE* res, char* source, int offset, Elf32_Shdr sectheader[], Elf32
 
     if (sectheader[v].sh_size != 0){
         //change_indstringtable(source ,header,sectheader, v);
-        sect_header_res.sh_offset = offset;
+        sect_header_res.sh_offset = offset;        
     }
     sect_header_res.sh_name = table->val;
     write_table(table,sectheader[v], header_s1, source);
@@ -104,6 +104,7 @@ int write_string_table(FILE* fres, table_string table, int offset){
         fprintf(fres, "%c", table.string[i]);
         offset++;
     }
+    resval++;
     return offset;
 }
 /*                  Partie 6
